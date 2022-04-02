@@ -40,7 +40,7 @@ jobs:
     - name: Test image
       run: |
         docker images
-        docker run --name test-container --detach --env WEBDAV_USER=user1 --env WEBDAV_PASS=password1 --volume 'webdav:/var/www/webdav' ${USER}/${REPO}:${VERSION}
+        docker run --name test-container --detach --env WEBDAV_USER=user --env WEBDAV_PASS=password1 --volume 'webdav:/var/www/webdav' ${USER}/${REPO}:${VERSION}
         docker ps -a
 
     - name: Container scan
