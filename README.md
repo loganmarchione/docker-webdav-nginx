@@ -31,7 +31,7 @@ Runs a Nginx WebDav server in Docker
 ### Environment variables
 | Variable    | Required? | Definition                       | Example                    | Comments                                                     |
 |-------------|-----------|----------------------------------|----------------------------|--------------------------------------------------------------|
-| WEBDAV_USER | No        | WebDav username                  | user1                      | user AND pass need to be set for authentication to work      |
+| WEBDAV_USER | No        | WebDav username                  | user                       | user AND pass need to be set for authentication to work      |
 | WEBDAV_PASS | No        | WebDav password                  | password1                  | user AND pass need to be set for authentication to work      |
 
 ### Ports
