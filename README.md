@@ -9,6 +9,7 @@ Runs a Nginx WebDav server in Docker
   - Image base: [Ubuntu](https://hub.docker.com/_/ubuntu)
   - Init system: N/A
   - Application: [Nginx](https://nginx.org/)
+  - Architecture: `linux/amd64,linux/arm64,linux/arm/v7`
 
 ## Explanation
 
