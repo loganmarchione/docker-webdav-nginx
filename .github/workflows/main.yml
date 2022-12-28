@@ -13,7 +13,7 @@ env:
   REPO: docker-webdav-nginx
 
 jobs:
-  ubuntu_ci:
+  ci:
     name: Build and test
 
     runs-on: ubuntu-latest
@@ -47,17 +47,22 @@ jobs:
         docker run --name test-container --detach --env WEBDAV_USER=user --env WEBDAV_PASS=password1 --volume 'webdav:/var/www/webdav' ${USER}/${REPO}:${VERSION}
         docker ps -a
 
-    - name: Container scan
-      uses: azure/container-scan@v0
+    - name: Container scan with Dockle
+      uses: docker://goodwithtech/dockle:v0.4.9
       with:
-        image-name: ${{ env.USER }}/${{ env.REPO }}:${{ env.VERSION }}
-        severity-threshold: CRITICAL
-        run-quality-checks: true
+        args: '--exit-code 1 --format list ${{ env.USER }}/${{ env.REPO }}:${{ env.VERSION }}'
 
-  ubuntu_cd:
+    - name: Container scan with Trivy
+      uses: aquasecurity/trivy-action@0.8.0
+      with:
+        scan-type: 'image'
+        image-ref: '${{ env.USER }}/${{ env.REPO }}:${{ env.VERSION }}'
+        trivy-config: ./github/trivy.yaml
+
+  cd:
     name: Deploy
 
-    needs: ubuntu_ci
+    needs: ci
     runs-on: ubuntu-latest
 
     steps:
