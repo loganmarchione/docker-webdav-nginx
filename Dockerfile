@@ -25,7 +25,9 @@ EXPOSE 80
 
 VOLUME [ "/var/www/webdav" ]
 
-COPY password.sh password.sh
+COPY password.sh /
+
+COPY VERSION /
 
 COPY webdav.conf /etc/nginx/sites-enabled/webdav
 
