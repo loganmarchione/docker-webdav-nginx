@@ -1,4 +1,4 @@
-FROM ubuntu:jammy
+FROM debian:11-slim
 
 ARG BUILD_DATE
 
