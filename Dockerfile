@@ -11,7 +11,7 @@ LABEL \
 
 ARG DEBIAN_FRONTEND=noninteractive
 
-RUN apt-get update && apt-get install -y --no-install-recommends \
+RUN apt-get update && apt-get -y install --no-install-recommends \
     apache2-utils \
     netcat \
     nginx-extras && \
