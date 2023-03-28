@@ -6,7 +6,7 @@
 Runs a Nginx WebDav server in Docker
   - Source code: [GitHub](https://github.com/loganmarchione/docker-webdav-nginx)
   - Docker container: [Docker Hub](https://hub.docker.com/r/loganmarchione/docker-webdav-nginx)
-  - Image base: [Ubuntu](https://hub.docker.com/_/ubuntu)
+  - Image base: [Debian](https://hub.docker.com/_/debian)
   - Init system: N/A
   - Application: [Nginx](https://nginx.org/)
   - Architecture: `linux/amd64,linux/arm64,linux/arm/v7`
