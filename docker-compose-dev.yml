@@ -10,14 +10,14 @@ services:
       - WEBDAV_USER=user
       - WEBDAV_PASS=password1
     networks:
-      - app
+      - webdav
     ports:
       - '8888:80'
     volumes:
       - 'webdav:/var/www/webdav'
 
 networks:
-  app:
+  webdav:
 
 volumes:
   webdav:
