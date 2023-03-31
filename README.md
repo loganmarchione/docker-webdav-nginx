@@ -51,7 +51,7 @@ Below is an example docker-compose.yml file.
 version: '3'
 services:
   webdav:
-    container_name: webdav
+    container_name: docker-webdav-nginx
     restart: unless-stopped
     environment:
       - WEBDAV_USER=user
@@ -70,6 +70,18 @@ networks:
 volumes:
   webdav:
     driver: local
+```
+
+Below is an example of running locally (used to edit/test/debug).
+```
+# Build the Dockerfile
+docker compose -f docker-compose-dev.yml up -d
+
+# View logs
+docker compose -f docker-compose-dev.yml logs -f
+
+# Destroy when done
+docker compose -f docker-compose-dev.yml down
 ```
 
 ## TODO

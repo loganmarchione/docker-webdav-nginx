@@ -1,0 +1,24 @@
+version: '3'
+services:
+  webdav:
+    container_name: docker-webdav-nginx
+    restart: unless-stopped
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - WEBDAV_USER=user
+      - WEBDAV_PASS=password1
+    networks:
+      - app
+    ports:
+      - '8888:80'
+    volumes:
+      - 'webdav:/var/www/webdav'
+
+networks:
+  app:
+
+volumes:
+  webdav:
+    driver: local
