@@ -25,13 +25,13 @@ EXPOSE 80
 
 VOLUME [ "/var/www/webdav" ]
 
-COPY password.sh /
+COPY entrypoint.sh /
 
 COPY VERSION /
 
 COPY webdav.conf /etc/nginx/sites-enabled/webdav
 
-ENTRYPOINT ["/password.sh"]
+ENTRYPOINT ["/entrypoint.sh"]
 
 CMD ["nginx", "-g", "daemon off;"]
 
