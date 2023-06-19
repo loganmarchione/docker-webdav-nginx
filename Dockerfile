@@ -13,7 +13,7 @@ ARG DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && apt-get -y install --no-install-recommends \
     apache2-utils \
-    netcat \
+    netcat-openbsd \
     nginx-extras && \
     rm -rf /var/lib/apt/lists/* && \
     mkdir -p "/var/www/webdav/restricted" && \
