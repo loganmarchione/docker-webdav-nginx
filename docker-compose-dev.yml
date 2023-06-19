@@ -9,6 +9,7 @@ services:
     environment:
       - WEBDAV_USER=user
       - WEBDAV_PASS=password1
+      - NGINX_CLIENT_MAX_BODY_SIZE=500M
     networks:
       - webdav
     ports:
