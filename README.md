@@ -15,13 +15,14 @@ Runs a Nginx WebDav server in Docker
 
   - Runs a Nginx WebDav server in Docker.
   - Exposes two WebDav locations
-    - `/public` - No authentication
-    - `/restricted` - Authentication if specified (see below)
+    - `http://localhost/public` - No authentication
+    - `http://localhost/restricted` - Authentication if specified (see below)
 
 ## Requirements
 
   - Requires a WebDav client.
-  - I've found that not all clients are compatible (e.g., Dolphin doesn't work, but Thunar does). 
+  - I've found that not all clients are compatible (e.g., for me, Dolphin doesn't work, but Thunar does).
+  - I prefer to use [Docker volumes](https://docs.docker.com/storage/volumes/) for storage, as [bind mounts](https://docs.docker.com/storage/bind-mounts/) might cause permissions issues when creating the required directories.
 
 ## Docker image information
 
