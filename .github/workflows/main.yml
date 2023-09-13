@@ -71,7 +71,7 @@ jobs:
         exit-code: '1'
         exit-level: 'warn'
         ignore: 'CIS-DI-0001'
-        accept-key: 'DEBIAN_FRONTEND'
+        accept-key: 'DEBIAN_FRONTEND,LABEL'
 
     - name: Container scan with Trivy
       uses: aquasecurity/trivy-action@0.12.0
