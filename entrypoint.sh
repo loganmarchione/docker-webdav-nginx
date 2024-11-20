@@ -4,6 +4,12 @@ printf "########################################\n"
 printf "# Container starting up!\n"
 printf "########################################\n"
 
+# Check for old WebDav user/pass settings, fail if they're still set
+if [ -n "$WEBDAV_USER" ] && [ -n "$WEBDAV_PASS" ]; then
+    printf "# ERROR: You're using the old WEBDAV_USER or WEBDAV_PASS env vars, read the docs to switch to the new WEBDAV_USERS env var\n"
+    exit 1
+fi
+
 # Path to the htpasswd file
 HTPASSWD_FILE=/etc/nginx/webdav_credentials
 
