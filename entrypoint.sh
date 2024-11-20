@@ -1,15 +1,30 @@
-#!/bin/sh -e
+#!/bin/bash -e
 
 printf "########################################\n"
 printf "# Container starting up!\n"
 printf "########################################\n"
 
+# Path to the htpasswd file
+HTPASSWD_FILE=/etc/nginx/webdav_credentials
+
+# Ensure the file exists or clear existing content
+> "$HTPASSWD_FILE"
+
 # Check for WebDav user/pass
 printf "# STATE: Checking for WebDav user/pass\n"
-if [ -n "$WEBDAV_USER" ] && [ -n "$WEBDAV_PASS" ]
-then
-	printf "# STATE: WebDav user/pass written to /etc/nginx/webdav_credentials\n"
-	htpasswd -b -c /etc/nginx/webdav_credentials $WEBDAV_USER $WEBDAV_PASS > /dev/null 2>&1
+if [ ! -z "$WEBDAV_USERS" ]; then
+    # Split users by comma
+    IFS=',' read -ra USERS <<< "$WEBDAV_USERS"
+    for USER in "${USERS[@]}"; do
+        # Split username and password by colon
+        IFS=':' read -ra CREDENTIALS <<< "$USER"
+        USERNAME=${CREDENTIALS[0]}
+        PASSWORD=${CREDENTIALS[1]}
+
+        # Add user to htpasswd file
+        htpasswd -b "$HTPASSWD_FILE" "$USERNAME" "$PASSWORD" > /dev/null 2>&1
+		printf "# STATE: WebDav user/pass written to $HTPASSWD_FILE\n"
+    done
 else
 	printf "# WARN:  No WebDav user/pass were set, the "restricted" directory has no authentication on it!\n"
 	sed -i "s/.*auth_basic.*//g" /etc/nginx/sites-enabled/webdav
@@ -17,8 +32,7 @@ else
 fi
 
 # Check for client_max_body_size setting
-if [ -n "$NGINX_CLIENT_MAX_BODY_SIZE" ]
-then
+if [ -n "$NGINX_CLIENT_MAX_BODY_SIZE" ]; then
 	printf "# STATE: Setting client_max_body_size to $NGINX_CLIENT_MAX_BODY_SIZE\n"
 	sed -i "s/client_max_body_size 250M;/client_max_body_size $NGINX_CLIENT_MAX_BODY_SIZE;/g" /etc/nginx/sites-enabled/webdav
 fi

@@ -7,8 +7,7 @@ services:
       context: .
       dockerfile: Dockerfile
     environment:
-      - WEBDAV_USER=user
-      - WEBDAV_PASS=password1
+      - WEBDAV_USERS=user1:password1,user2:password2
       - NGINX_CLIENT_MAX_BODY_SIZE=500M
     networks:
       - webdav
