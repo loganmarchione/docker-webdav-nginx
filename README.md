@@ -31,11 +31,10 @@ Runs a Nginx WebDav server in Docker
   - `X.X.X`: [Semantic version](https://semver.org/) (use if you want to stick on a specific version)
 
 ### Environment variables
-| Variable                   | Required?          | Definition                                                                                                     | Example                    | Comments                                                     |
-|----------------------------|--------------------|----------------------------------------------------------------------------------------------------------------|----------------------------|--------------------------------------------------------------|
-| WEBDAV_USER                | No                 | WebDav username                                                                                                | user                       | user AND pass need to be set for authentication to work      |
-| WEBDAV_PASS                | No                 | WebDav password                                                                                                | password1                  | user AND pass need to be set for authentication to work      |
-| NGINX_CLIENT_MAX_BODY_SIZE | No (default: 250M) | Nginx's [client_max_body_size](https://nginx.org/en/docs/http/ngx_http_core_module.html#client_max_body_size)  | 500M                       | Be sure to include the units. Set to `0` to disable.         |
+| Variable                   | Required?          | Definition                                                                                                     | Example                           | Comments                                                                                                                       |
+|----------------------------|--------------------|----------------------------------------------------------------------------------------------------------------|-----------------------------------|--------------------------------------------------------------------------------------------------------------------------------|
+| WEBDAV_USERS               | No                 | Comma-separated list of usernames/passwords, where each user-password pair is separated by a colon             | `user1:password1,user2:password2` | Usernames/passwords cannot contain commas `,` or colons `:` and all users share the same location for files (i.e., `/restricted`) |
+| NGINX_CLIENT_MAX_BODY_SIZE | No (default: 250M) | Nginx's [client_max_body_size](https://nginx.org/en/docs/http/ngx_http_core_module.html#client_max_body_size)  | 500M                              | Be sure to include the units. Set to `0` to disable.                                                                           |
 
 ### Ports
 | Port on host              | Port in container | Comments            |
@@ -56,8 +55,7 @@ services:
     container_name: docker-webdav-nginx
     restart: unless-stopped
     environment:
-      - WEBDAV_USER=user
-      - WEBDAV_PASS=password1
+      - WEBDAV_USERS=user1:password1,user2:password2
       - NGINX_CLIENT_MAX_BODY_SIZE=500M
     networks:
       - webdav
