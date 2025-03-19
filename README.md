@@ -73,6 +73,8 @@ volumes:
     driver: local
 ```
 
+### Debugging only
+
 Below is an example of running locally (used to edit/test/debug).
 ```
 # Build the Dockerfile
@@ -84,5 +86,3 @@ docker compose -f docker-compose-dev.yml logs -f
 # Destroy when done
 docker compose -f docker-compose-dev.yml down
 ```
-
-## TODO
