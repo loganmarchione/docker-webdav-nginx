@@ -86,3 +86,7 @@ docker compose -f docker-compose-dev.yml logs -f
 # Destroy when done
 docker compose -f docker-compose-dev.yml down
 ```
+
+Restart
+> docker stop $(docker ps -a -q)
+> docker rm $(docker ps -a -q)
