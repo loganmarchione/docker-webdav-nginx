@@ -14,9 +14,9 @@ Runs a Nginx WebDav server in Docker
 ## Explanation
 
   - Runs a Nginx WebDav server in Docker.
-  - Exposes two WebDav locations
-    - `http://localhost/public` - No authentication
-    - `http://localhost/restricted` - Authentication if specified (see below)
+  - Exposes WebDav locations
+    - `http://localhost/public` - No authentication, open to all
+    - `http://localhost/<username>` - Per-user directory, accessible only to the authenticated user matching `<username>` (requires `WEBDAV_USERS` to be set)
 
 ## Requirements
 
@@ -33,7 +33,7 @@ Runs a Nginx WebDav server in Docker
 ### Environment variables
 | Variable                   | Required?          | Definition                                                                                                     | Example                           | Comments                                                                                                                       |
 |----------------------------|--------------------|----------------------------------------------------------------------------------------------------------------|-----------------------------------|--------------------------------------------------------------------------------------------------------------------------------|
-| WEBDAV_USERS               | No                 | Comma-separated list of usernames/passwords, where each user-password pair is separated by a colon             | `user1:password1,user2:password2` | Usernames/passwords cannot contain commas `,` or colons `:` and all users share the same location for files (i.e., `/restricted`) |
+| WEBDAV_USERS               | No                 | Comma-separated list of usernames/passwords, where each user-password pair is separated by a colon             | `user1:password1,user2:password2` | Usernames/passwords cannot contain commas `,`, colons `:`, spaces, or slashes `/`. Each user gets their own isolated directory at `/<username>`. |
 | NGINX_CLIENT_MAX_BODY_SIZE | No (default: 250M) | Nginx's [client_max_body_size](https://nginx.org/en/docs/http/ngx_http_core_module.html#client_max_body_size)  | 500M                              | Be sure to include the units. Set to `0` to disable.                                                                           |
 
 ### Ports

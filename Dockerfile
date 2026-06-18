@@ -16,7 +16,6 @@ RUN apt-get update && apt-get -y install --no-install-recommends \
     netcat-openbsd \
     nginx-extras && \
     rm -rf /var/lib/apt/lists/* && \
-    mkdir -p "/var/www/webdav/restricted" && \
     mkdir -p "/var/www/webdav/public" && \
     chown -R www-data:www-data "/var/www" && \
     rm /etc/nginx/sites-enabled/default
