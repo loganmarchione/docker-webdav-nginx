@@ -14,9 +14,11 @@ ARG DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && apt-get -y install --no-install-recommends \
     apache2-utils \
     netcat-openbsd \
-    nginx-extras && \
+    nginx-extras \
+    python3 && \
     rm -rf /var/lib/apt/lists/* && \
     mkdir -p "/var/www/webdav/public" && \
+    mkdir -p "/opt/admin" && \
     chown -R www-data:www-data "/var/www" && \
     rm /etc/nginx/sites-enabled/default
 
@@ -29,6 +31,8 @@ COPY entrypoint.sh /
 COPY VERSION /
 
 COPY webdav.conf /etc/nginx/sites-enabled/webdav
+
+COPY admin_api.py admin.html /opt/admin/
 
 ENTRYPOINT ["/entrypoint.sh"]
 
