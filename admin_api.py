@@ -152,11 +152,11 @@ def write_users_file(users):
 def add_user(username, password):
     """Add a new user: htpasswd file, directory, nginx config, persistence."""
     if not username or not password:
-        return False, "Username and password are required"
+        return False, 400, "Username and password are required"
     if not username.isalnum() and not all(c.isalnum() or c in "-_" for c in username):
-        return False, "Username must be alphanumeric (hyphens and underscores allowed)"
+        return False, 400, "Username must be alphanumeric (hyphens and underscores allowed)"
     if HTPASSWD_DIR.joinpath(username).exists():
-        return False, f"User '{username}' already exists"
+        return False, 404, f"User '{username}' already exists"
 
     # Create htpasswd file
     htpasswd_file = HTPASSWD_DIR / username
@@ -165,7 +165,7 @@ def add_user(username, password):
         capture_output=True
     )
     if result.returncode != 0:
-        return False, f"Failed to create credentials: {result.stderr.decode()}"
+        return False, 500, f"Failed to create credentials: {result.stderr.decode()}"
 
     # Create user directory
     user_dir = WEBDAV_DIR / username
@@ -181,7 +181,7 @@ def add_user(username, password):
     users[username] = password
     write_users_file(users)
 
-    return True, f"User '{username}' created successfully"
+    return True, 201, f"User '{username}' created successfully"
 
 
 def remove_user(username):
@@ -264,8 +264,7 @@ class AdminHandler(http.server.BaseHTTPRequestHandler):
 
             username = data.get("username", "").strip()
             password = data.get("password", "").strip()
-            success, message = add_user(username, password)
-            status = 201 if success else 400
+            success, status,message = add_user(username, password)
             self.send_json({"success": success, "message": message}, status)
         else:
             self.send_error(404)
