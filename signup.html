@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Instant redirect for non-JS clients -->
+  <meta http-equiv="refresh" content="0; url=__SIGNUP_HOST__">
+  <title>Home Cloud — Redirecting…</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --surface: #1e293b;
+      --border: #334155;
+      --text: #e2e8f0;
+      --text-secondary: #94a3b8;
+      --accent: #3b82f6;
+      --radius: 10px;
+    }
+
+    @media (prefers-color-scheme: light) {
+      :root {
+        --bg: #f8fafc;
+        --surface: #ffffff;
+        --border: #e2e8f0;
+        --text: #1e293b;
+        --text-secondary: #475569;
+      }
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1rem;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 2.5rem 2rem;
+      max-width: 440px;
+      width: 100%;
+      text-align: center;
+    }
+
+    .icon { font-size: 2.5rem; margin-bottom: 0.75rem; }
+    h1 { font-size: 1.25rem; margin-bottom: 0.5rem; }
+    p { color: var(--text-secondary); font-size: 0.9rem; line-height: 1.6; }
+
+    a {
+      color: var(--accent);
+      font-weight: 600;
+      text-decoration: none;
+    }
+    a:hover { text-decoration: underline; }
+  </style>
+  <script>
+    // Instant redirect (meta refresh above is the no-JS fallback)
+    window.location.replace("__SIGNUP_HOST__");
+  </script>
+</head>
+<body>
+  <div class="card">
+    <div class="icon">☁️</div>
+    <h1>Redirecting…</h1>
+    <p>
+      Taking you to the sign-up page.<br>
+      If nothing happens,
+      <a href="__SIGNUP_HOST__">click here</a>.
+    </p>
+  </div>
+</body>
+</html>

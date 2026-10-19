@@ -32,6 +32,20 @@ NGINX_TEMPLATE = """server {
   client_max_body_size __CLIENT_MAX_BODY_SIZE__;
   charset UTF-8;
 
+  # Public pages — no authentication, open to everyone.
+  # Exact-match locations so a user like "sign" cannot shadow these paths.
+  location = /signup.html {
+    access_log             /dev/stdout;
+    error_log              /dev/stdout;
+  }
+
+  location = /signup {
+    # Relative Location header, so the browser keeps the port it connected on
+    # (absolute redirects are built from $host, which has no port).
+    absolute_redirect  off;
+    return 302 /signup.html;
+  }
+
   location /public {
     dav_methods            PUT DELETE MKCOL COPY MOVE;
     dav_ext_methods        PROPFIND OPTIONS;
@@ -41,6 +55,23 @@ NGINX_TEMPLATE = """server {
 
     error_log              /dev/stdout;
     access_log             /dev/stdout;
+
+    # Handle CORS preflight before auth runs
+    if ($request_method = 'OPTIONS') {
+      add_header 'Access-Control-Allow-Origin' '*' always;
+      add_header 'Access-Control-Allow-Methods' 'GET, PUT, DELETE, MKCOL, COPY, MOVE, OPTIONS, PROPFIND, PROPPATCH' always;
+      add_header 'Access-Control-Allow-Headers' 'Authorization, Content-Type, Depth, Destination, If, Lock-Token, Overwrite, Timeout' always;
+      add_header 'Access-Control-Max-Age' 1728000;
+      add_header 'Content-Type' 'text/plain; charset=utf-8';
+      add_header 'Content-Length' 0;
+      return 204;
+    }
+
+    # always ensures headers are sent on 401/4xx/5xx too
+    add_header 'Access-Control-Allow-Origin'   '*' always;
+    add_header 'Access-Control-Allow-Methods'  'GET, PUT, DELETE, MKCOL, COPY, MOVE, OPTIONS, PROPFIND, PROPPATCH' always;
+    add_header 'Access-Control-Allow-Headers'  'Authorization, Content-Type, Depth, Destination, If, Lock-Token, Overwrite, Timeout' always;
+    add_header 'Access-Control-Expose-Headers' 'Content-Length, Content-Range, Date, ETag, Lock-Token' always;
   }
 
   location /admin {

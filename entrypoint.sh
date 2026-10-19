@@ -13,6 +13,25 @@ mkdir -p "$HTPASSWD_DIR"
 # Persistent users file on the mounted volume
 USERS_FILE=/var/www/webdav/.users
 
+# ── Install public signup page ─────────────────────────────────────────────────────
+# Must be copied to /var/www/webdav at every start since the data volume is mounted at the same path which shadows all pre-exising files.
+SIGNUP_SRC=/opt/signup.html
+SIGNUP_DST=/var/www/webdav/signup.html
+if [ -f "$SIGNUP_SRC" ]; then
+    SIGNUP_URL="${SIGNUP_HOST:-https://www.google.com/}"
+    SIGNUP_URL="${SIGNUP_URL%\"}"
+    SIGNUP_URL="${SIGNUP_URL#\"}"
+    # Escape specials chars prior to sed replacement: \ & |
+    SIGNUP_URL_SED=$(printf '%s' "$SIGNUP_URL" | sed 's/[\\&|]/\\&/g')
+    sed "s|__SIGNUP_HOST__|${SIGNUP_URL_SED}|g" "$SIGNUP_SRC" > "$SIGNUP_DST"
+
+    chown www-data:www-data "$SIGNUP_DST"
+    chmod 644 "$SIGNUP_DST"
+    printf "# STATE: Public signup page installed at /signup.html (redirect → %s)\n" "$SIGNUP_URL"
+else
+    printf "# WARN:  $SIGNUP_SRC not found, public signup page will be unavailable\n"
+fi
+
 
 # ── Generate admin credentials ───────────────────────────────────────────────
 ADMIN_USER="${ADMIN_USER:-admin}"

@@ -34,6 +34,8 @@ COPY webdav.conf /etc/nginx/sites-enabled/webdav
 
 COPY admin_api.py admin.html /opt/admin/
 
+COPY signup.html /opt/signup.html
+
 ENTRYPOINT ["/entrypoint.sh"]
 
 CMD ["nginx", "-g", "daemon off;"]
